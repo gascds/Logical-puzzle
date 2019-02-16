@@ -20,7 +20,7 @@ PyEDA allows us to create a Boolean function by creating Boolean variables using
 
    From the above question, we are required to find out who the elder brother is (Boy A or Boy B). Using *exprvar* to expression variables A & B .We then construct a logic expression as below. 
 
-   `>>>A, B = map(exprvar, 'A', 'B')`
+   >A, B = map(exprvar, 'A', 'B')
 
 2. **To create logic Expression representation**
 
@@ -28,7 +28,10 @@ PyEDA allows us to create a Boolean function by creating Boolean variables using
 
    Boy A claimed that he is the older one while Boy B claimed that he is the younger one, and these two claims can be written as: 
 
-   `>>> P = OneHot(A, B) >>> C1 = A >>> C2 = ~B   //precisely one of A and B is true`
+   >P = OneHot(A, B) 
+   C1 = A 
+   C2 = ~B  
+   //precisely one of A and B is true`
 
 3. **To create a statement for checking**
 
@@ -38,16 +41,16 @@ PyEDA allows us to create a Boolean function by creating Boolean variables using
    are lying. Therefore, we use a new variable (R) to represent the 3 cases, and also the precondition
    (P).
 
-   `>>>R = P & (~C1&C2 | C1&~C2 | ~C1&~C2)`
+   >R = P & (~C1&C2 | C1&~C2 | ~C1&~C2)
 
 4. **Generate solution using PyEDA** 
 
    PyEDA includes a function called satisfy_all() which can iterate through all the satisfying input variables in the statement. And now we get the answer – Boy B is the elder brother and Boy A is the younger brother. 
 
-   `>>> for** x **in** R.satisfy_all():
-   ... print(x)
-   ...
-   {B: 1, A: 0}`
+   > for x **in** R.satisfy_all():
+   > ... print(x)
+   >...
+   >{B: 1, A: 0}
 
 ### Program Design for the Shannon Puzzle
 
@@ -87,37 +90,55 @@ Then, we can use the programming language to implement the logic control and lis
 
 For the program implementation part: #Assign two roles to each person first
 
->As, Ae = map(exprvar, (‘As’, ‘Ae’)) 
+>As, Ae = map(exprvar, (‘As’, ‘Ae’))
+> 
 >Bs, Be = map(exprvar, (‘Bs’, ‘Be’)) 
+>
 >Cs, Ce = map(exprvar, (‘Cs’, ‘Ce’)) 
+>
 >Ds, De = map(exprvar, (‘Ds’, ‘De’)) 
+>
 >Es, Ee = map(exprvar, (‘Es’, ‘Ee’))
+>
 >Fs, Fe = map(exprvar, (‘Fs’, ‘Fe’))
+>
 >Gs, Ge = map(exprvar, (‘Gs’, ‘Ge’))
 
-\**#Eliminate the probability by given information** 
+**#Eliminate the probability by given information** 
 
 > A = OneHot(Ae)
-B = OneHot(Bs)
-C = OneHot(Ce, Cs)
-D = OneHot(De, Ds)
-E = OneHot(Es)
-F = OneHot(Fe, Fs)
-G = OneHot(Ge, Gs)
-H = OneHot(Ce, De)
-I = OneHot(Fe, Ge) 
+> 
+> B = OneHot(Bs)
+> 
+> C = OneHot(Ce, Cs)
+> 
+> D = OneHot(De, Ds)
+> 
+> E = OneHot(Es)
+> 
+> F = OneHot(Fe, Fs)
+> 
+> G = OneHot(Ge, Gs)
+> 
+> H = OneHot(Ce, De)
+> 
+> I = OneHot(Fe, Ge) 
 
-\**#Use AND to connect all the given information **
+**#Use AND to connect all the given information **
 
 > result = A&B&C&D&E&F&G&H&I 
 
 **Output all possible result:** 
 
 > for x in result.satisfy_all():
-> print(x)
+> 	print(x)
+> 
 > {Ge: 0, Gs: 1, Fe: 1, Fs: 0, Es: 1, De: 0, Ds: 1, Ce: 1, Cs: 0, Bs: 1, Ae: 1}
+> 
 > {Ge: 1, Gs: 0, Fe: 0, Fs: 1, Es: 1, De: 0, Ds: 1, Ce: 1, Cs: 0, Bs: 1, Ae: 1}
+> 
 > {Ge: 0, Gs: 1, Fe: 1, Fs: 0, Es: 1, De: 1, Ds: 0, Ce: 0, Cs: 1, Bs: 1, Ae: 1}
+> 
 > {Ge: 1, Gs: 0, Fe: 0, Fs: 1, Es: 1, De: 1, Ds: 0, Ce: 0, Cs: 1, Bs: 1, Ae: 1
 
 **And we finally get there are 3 engineers and 4 salesmen.**
@@ -145,17 +166,25 @@ Follow the inference procedure, we can know that 16 July is C’s birthday.
 \#define the exist date and months  
 
 >d14,d15,d16,d17,d18,d19 = map(exprvar, ('d14', 'd15', 'd16', 'd17', 'd18', 'd19'))
-May,Jun = map(exprvar, ('May','Jun'))
-Aug,Jul = map(exprvar, ('Aug','Jul')) 
+>
+>May,Jun = map(exprvar, ('May','Jun'))
+>
+>Aug,Jul = map(exprvar, ('Aug','Jul')) 
 
 **Eliminate the probability by given information**
 >s1 = OneHot(May,Jun,Jul,Aug)
-s2 = OneHot(d14,d15,d16,d17,d18,d19)
-s3 = OneHot(d14,d15,d16,d17)
-s4 = OneHot(Aug,Jul)
-s5 = OneHot(d15,d16,d17)
-s6 = OneHot(d16)
-s7 = OneHot(Jul)
+>
+>s2 = OneHot(d14,d15,d16,d17,d18,d19)
+>
+>s3 = OneHot(d14,d15,d16,d17)
+>
+>s4 = OneHot(Aug,Jul)
+>
+>s5 = OneHot(d15,d16,d17)
+>
+>s6 = OneHot(d16)
+>
+>s7 = OneHot(Jul)
 
 **Use AND to connect all the given information** 
 
@@ -164,7 +193,9 @@ s7 = OneHot(Jul)
 Output all possible result: 
 
 > for x in result.satisfy_all():
->  \>>> print(x)
->  \>> Output: {Jul: 1, Aug: 0, Jun: 0, May: 0, d19: 0, d18: 0, d17: 0, d16: 1, d15: 0, d14: 0} 
+> 
+>   print(x)
+>   
+> Output: {Jul: 1, Aug: 0, Jun: 0, May: 0, d19: 0, d18: 0, d17: 0, d16: 1, d15: 0, d14: 0} 
 
 **We figure out the answer is 16 July.** 
